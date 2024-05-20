@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getProductList } from "../api/productListApi";
+import { useNavigate } from "react-router-dom";
+import { API_HOST } from "../api/config";
 
 const ProductList = () => {
+  const Navigate = useNavigate();
+
   const [productList, setProductList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,7 +22,7 @@ const ProductList = () => {
   }, []);
 
   if (isLoading) {
-    return <div>로딩중입니다...</div>;
+    return <h3>상품목록을 불러오는 중 입니다....</h3>;
   }
 
   return (
@@ -27,8 +31,13 @@ const ProductList = () => {
       <div>
         {productList.map(item => (
           <ul key={item.id}>
-            <li>{item.name}</li>
-            <li>{item.price}</li>
+            <li
+              style={{ cursor: "pointer" }}
+              onClick={() => Navigate(`${API_HOST}/${item.id}`)}
+            >
+              {item.name}
+            </li>
+            <li>{item.price.toLocaleString("KO-kr")}원</li>
             <li>{item.explanation}</li>
           </ul>
         ))}

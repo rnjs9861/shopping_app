@@ -6,6 +6,7 @@ export const getProductList = async () => {
   try {
     // async가 있을땐 await를 꼭 써주자(기다렸다가 받아라)
     const response = await axios.get(`${API_HOST}`);
+
     return response;
   } catch (error) {
     console.log(error);
