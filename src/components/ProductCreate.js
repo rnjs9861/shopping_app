@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../api/productCreateApi";
 import { API_HOST } from "../api/config";
+import Button from "./common/Button";
 
 const ProductCreate = () => {
   const navigate = useNavigate();
@@ -56,9 +57,9 @@ const ProductCreate = () => {
       <div>
         <div>상품을 성공적으로 추가하였습니다.</div>
         <div>확인을 누르면 상품 목록 페이지로 이동합니다.</div>
-        <button type="button" onClick={handleMoveListPage}>
+        <Button type="button" onClick={handleMoveListPage}>
           확인
-        </button>
+        </Button>
       </div>
     );
   }
@@ -89,7 +90,7 @@ const ProductCreate = () => {
           onChange={handleExplanationChange}
         />
         <br />
-        <input type="submit" value="상품 정보 등록하기" />
+        <Button label="상품 정보 등록하기"></Button>
       </form>
     </div>
   );

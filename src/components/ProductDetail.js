@@ -1,13 +1,20 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import { getProductOne } from "../api/productItemApi";
+import useCart from "../hooks/useCart";
+import useModal from "../hooks/useModal";
+import Modal from "./common/Modal";
+import Button from "./common/Button";
+import styled from "@emotion/styled";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
+  const { addCarts } = useCart();
+  const { isModalOpen, modalMessage, confirmAction, openModal, closeModal } =
+    useModal();
 
   const [product, setProduct] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleMoveModifyPage = () => {
@@ -15,10 +22,22 @@ const ProductDetail = () => {
       navigate(`/modify/${productId}`);
     }
   };
-
   const handleMovePurchasePage = () => {
     if (productId) {
       navigate(`/purchase/${productId}`);
+    }
+  };
+
+  const handleCartAdd = () => {
+    if (product) {
+      addCarts(product.id);
+      openModal({
+        message: "장바구니에 성공적으로 추가하였습니다!",
+        onConfirm: () => {
+          closeModal();
+          navigate("/cart");
+        },
+      });
     }
   };
 
@@ -30,6 +49,7 @@ const ProductDetail = () => {
         .then(response => {
           const data = response?.data.product;
           setProduct(data);
+          // console.log(data);
         })
         .catch(error => console.log(error))
         .finally(() => setIsLoading(false));
@@ -37,7 +57,7 @@ const ProductDetail = () => {
   }, [productId]);
 
   if (isLoading) {
-    return <div>해당 상품정보를 불러오는 중 입니다...</div>;
+    return <h3>해당 상품 정보를 불러오는중입니다...</h3>;
   }
 
   if (!product) {
@@ -51,12 +71,17 @@ const ProductDetail = () => {
       <div>{product.price.toLocaleString("KO-kr")}원</div>
       <div>{product.explanation}</div>
 
-      <button type="button" onClick={handleMoveModifyPage}>
-        상품 수정하기
-      </button>
-      <button type="button" onClick={handleMovePurchasePage}>
-        상품 구매하기
-      </button>
+      <Button label=" 상품 수정하기" onClick={handleMoveModifyPage}></Button>
+      <Button label="상품 구매하기" onClick={handleMovePurchasePage}></Button>
+      <Button label="장바구니에 담기" onClick={handleCartAdd}></Button>
+
+      {/* 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        message={modalMessage}
+        onClose={closeModal}
+        onConfirm={confirmAction}
+      />
     </div>
   );
 };
