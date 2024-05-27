@@ -1,41 +1,38 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../api/productCreateApi";
-import { API_HOST } from "../api/config";
 import Button from "./common/Button";
+import { ProductType } from "../types";
 
-const ProductCreate = () => {
+const Create = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [explanation, setExplanation] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleNameChange = e => {
-    //console.log("상품이름", e.target.value);
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("상품이름", e.target.value);
     setName(e.target.value);
   };
-
-  const handlePriceChange = e => {
-    //console.log("상품가격", e.target.value);
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("상품가격", e.target.value);
     setPrice(Number(e.target.value));
   };
-
-  const handleExplanationChange = e => {
-    //console.log("상품설명", e.target.value);
+  const handleExplanationChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    // console.log("상품설명", e.target.value);
     setExplanation(e.target.value);
   };
 
-  const handleCreateProduct = async e => {
+  const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); //등록 중입니다...
+    setIsLoading(true);
 
-    const response = await createProduct({ name, price, explanation }); //createApi.js로부터 createProduct를 불러와서 객체로 보내주자
+    const response = await createProduct({ name, price, explanation });
 
     if (response) {
       setIsLoading(false);
@@ -45,11 +42,11 @@ const ProductCreate = () => {
 
   const handleMoveListPage = () => {
     setIsModalOpen(false);
-    navigate(`${API_HOST}`);
+    navigate("/product");
   };
 
   if (isLoading) {
-    return <div>상품을 등록 하는 중 입니다.</div>;
+    return <h3>상품을 등록 하는중입니다...</h3>;
   }
 
   if (isModalOpen) {
@@ -57,16 +54,14 @@ const ProductCreate = () => {
       <div>
         <div>상품을 성공적으로 추가하였습니다.</div>
         <div>확인을 누르면 상품 목록 페이지로 이동합니다.</div>
-        <Button type="button" onClick={handleMoveListPage}>
-          확인
-        </Button>
+        <Button label="확인" onClick={handleMoveListPage} />
       </div>
     );
   }
 
   return (
     <div>
-      <h1>상품 등록하기</h1>
+      <h2>상품 등록하기</h2>
       <form onSubmit={handleCreateProduct}>
         <input
           type="text"
@@ -84,16 +79,15 @@ const ProductCreate = () => {
         <br />
         <textarea
           rows={4}
-          type="text"
           placeholder="상품 설명"
           value={explanation}
           onChange={handleExplanationChange}
         />
         <br />
-        <Button label="상품 정보 등록하기"></Button>
+        <Button label="상품 정보 등록하기" />
       </form>
     </div>
   );
 };
 
-export default ProductCreate;
+export default Create;

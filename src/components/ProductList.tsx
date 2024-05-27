@@ -3,11 +3,12 @@ import { getProductList } from "../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { API_HOST } from "../api/config";
 import Button from "./common/Button";
+import { ProductType } from "../types";
 
 const ProductList = () => {
   const navigate = useNavigate();
 
-  const [productList, setProductList] = useState([]);
+  const [productList, setProductList] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,7 +30,6 @@ const ProductList = () => {
   return (
     <div>
       <h2>상품 목록 보여주기</h2>
-      <Button></Button>
       <div>
         {productList.map(item => (
           <ul key={item.id}>

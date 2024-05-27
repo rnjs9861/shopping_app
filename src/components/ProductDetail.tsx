@@ -6,15 +6,16 @@ import useModal from "../hooks/useModal";
 import Modal from "./common/Modal";
 import Button from "./common/Button";
 import styled from "@emotion/styled";
+import { ProductType } from "../types";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
-  const { productId } = useParams();
+  const { productId } = useParams<{ productId: string }>();
   const { addCarts } = useCart();
   const { isModalOpen, modalMessage, confirmAction, openModal, closeModal } =
     useModal();
 
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<ProductType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleMoveModifyPage = () => {
