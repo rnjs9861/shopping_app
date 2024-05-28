@@ -1,5 +1,8 @@
 import React from "react";
+import styled from "@emotion/styled";
+
 import ProductPurchase from "../components/ProductPurchase";
+import { colorSystem } from "../styles/color";
 
 const ProductPurchasePage = () => {
   return (
