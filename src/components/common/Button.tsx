@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { MouseEvent } from "react";
 import { colorArr, colorSystem } from "../../styles/color";
 
 const ButtonStyle = styled.button`
@@ -28,7 +28,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const Button = ({ label = "버튼", onClick }: Props) => {
+const Button: React.FC<Props> = ({ label = "버튼", onClick }) => {
   return <ButtonStyle onClick={onClick}>{label}</ButtonStyle>;
 };
 

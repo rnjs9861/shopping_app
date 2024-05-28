@@ -32,7 +32,10 @@ const Create = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const response = await createProduct({ name, price, explanation });
+    const response = await createProduct({ name, price, explanation } as Omit<
+      ProductType,
+      "id"
+    >);
 
     if (response) {
       setIsLoading(false);

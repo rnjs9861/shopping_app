@@ -1,6 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-const ResponsiveStyle = styled.div`
+
+interface ResponsiveProps {
+  children: ReactNode;
+  width?: string;
+}
+
+const ResponsiveStyle = styled.div<{ width?: string }>`
   margin: 20px auto; //가운데로
   padding: 0px 1rem;
   width: ${props => props.width || "1200px"};
@@ -13,7 +19,7 @@ const ResponsiveStyle = styled.div`
   }
 `;
 
-const Responsive = ({ children, ...props }) => {
+const Responsive: React.FC<ResponsiveProps> = ({ children, ...props }) => {
   return <ResponsiveStyle {...props}>{children}</ResponsiveStyle>;
 };
 
